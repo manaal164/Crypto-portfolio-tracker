@@ -1,0 +1,23 @@
+src/
+  components/
+    Header.jsx
+    Footer.jsx
+    PrivateRoute.jsx
+
+  pages/
+    LoginPage.jsx
+    RegisterPage.jsx
+    DashboardPage.jsx
+    AddInvestmentPage.jsx
+    ViewInvestmentsPage.jsx
+    HistoryPage.jsx
+
+  services/
+    authService.js
+    portfolioService.js
+
+  context/
+    AuthContext.jsx
+
+  App.jsx
+  main.jsx

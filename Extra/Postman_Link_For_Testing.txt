@@ -1,0 +1,68 @@
+Default URL: http://localhost:5000
+
+Register a new user: POST 
+Link: http://localhost:5000/api/auth/register
+
+Format: 
+{
+  "name": "Manal",
+  "email": "yourpersonalemail@gmail.com",
+  "password": "NewPassword123"
+}
+
+Verify email: POST
+Link: http://localhost:5000/api/auth/verify
+
+Format:
+{
+  "email": "yourpersonalemail@gmail.com",
+  "code": "123456"   // replace with code from email
+}
+
+
+Login: POST
+Link: http://localhost:5000/api/auth/login
+
+Format:
+{
+  "email": "yourpersonalemail@gmail.com",
+  "password": "NewPassword123"
+}
+
+
+
+******** In All Portfolio We Have To Add Header Jiske Login Krrhe Hn *********
+******** Key: Authorization
+******** Value: Bearer <your login token>
+
+
+Add portfolio item: POST
+Link: http://localhost:5000/api/portfolio/add
+
+Format:
+{
+  "coin": "BTC",
+  "symbol": "BTCUSDT",
+  "quantity": 0.5,
+  "buyPrice": 30000,
+  "note": "Long term investment"
+}
+
+
+List portfolio items: GET
+Link: http://localhost:5000/api/portfolio/list
+
+
+Get All Analytics (Dashbaord): GET
+Link: http://localhost:5000/api/portfolio/analytics
+
+
+Check History: GET
+Link: http://localhost:5000/api/portfolio/history
+
+
+
+
+
+    
+
