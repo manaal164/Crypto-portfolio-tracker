@@ -18,9 +18,13 @@ app.use(express.json());
 // FRONTEND_URL should be your frontend app URL, e.g., "http://localhost:5173"
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 app.use(cors({
+  origin: "http://localhost:5173", // your frontend URL
+  credentials: true,
+}));
+/*app.use(cors({
   origin: FRONTEND_URL,
   credentials: true, // allow cookies if needed
-}));
+}));*/
 
 // -----------------------------
 // DATABASE CONNECTION
