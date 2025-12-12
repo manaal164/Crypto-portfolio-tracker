@@ -1,0 +1,30 @@
+/crypto-portfolio-backend
+│── package.json
+│── server.js
+│── .env
+│── .gitignore
+│
+├── /config
+│     ├── db.js
+│     └── email.js
+│
+├── /controllers
+│     ├── analyticsController.js
+│     ├── authController.js
+│     ├── historyController.js
+│     └── portfolioController.js
+│
+├── /middleware
+│     └── auth.js
+│
+├── /models
+│     ├── History.js
+│     ├── Portfolio.js
+│     └── User.js
+│
+├── /Routes
+│     ├── authRoutes.js
+│     └── portfolioRoutes.js  
+│
+└── /utils
+      └── cron.js

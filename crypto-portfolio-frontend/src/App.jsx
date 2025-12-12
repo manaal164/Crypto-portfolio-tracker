@@ -12,6 +12,7 @@ import DashboardPage from "./pages/DashboardPage";
 import AddInvestmentPage from "./pages/AddInvestmentPage";
 import ViewInvestmentsPage from "./pages/ViewInvestmentsPage";
 import HistoryPage from "./pages/HistoryPage";
+import OtpPage from "./pages/OtpPage";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+          <Route path="/otp" element={<OtpPage />} />
 
         {/* Protected Routes (only accessible if logged in) */}
         <Route
@@ -64,7 +66,7 @@ export default function App() {
       </Routes>
 
       {/* Footer visible on all pages */}
-      <Footer />
+    //  <Footer />
     </BrowserRouter>
   );
 }
