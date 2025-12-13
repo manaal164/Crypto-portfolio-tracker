@@ -1,77 +1,11 @@
-// import { useState } from "react";
-// import { loginUser } from "../services/authService";
-// import { useAuth } from "../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
 
-// export default function LoginPage() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const { setToken } = useAuth();
-//   const navigate = useNavigate();
-
-//   const handleLogin = async (e) => {
-//     e.preventDefault(); // prevent page refresh
-//     setLoading(true);
-
-//     try {
-//       const data = await loginUser({ email, password });
-//       console.log("Login successful:", data);
-
-//       setToken(data.token); // store JWT token
-//       navigate("/dashboard"); // redirect
-//     } catch (err) {
-//       console.error("Login failed:", err);
-//       alert(err.message || "Something went wrong, please try again");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div style={{ margin: "50px", maxWidth: "400px" }}>
-//       <h2>Login</h2>
-//       <form onSubmit={handleLogin}>
-//         <input
-//           type="email"
-//           value={email}
-//           placeholder="Email"
-//           onChange={(e) => setEmail(e.target.value)}
-//           style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
-//           required
-//         />
-//         <input
-//           type="password"
-//           value={password}
-//           placeholder="Password"
-//           onChange={(e) => setPassword(e.target.value)}
-//           style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
-//           required
-//         />
-//         <button
-//           type="submit"
-//           disabled={loading}
-//           style={{
-//             width: "100%",
-//             padding: "10px",
-//             backgroundColor: "#4CAF50",
-//             color: "white",
-//             border: "none",
-//             cursor: "pointer",
-//           }}
-//         >
-//           {loading ? "Logging in..." : "Login"}
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
 
 
 import { useState } from "react";
 import { loginUser } from "../services/authService";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Notification from "../components/Notification"; // ✅ import notification
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -81,16 +15,38 @@ export default function LoginPage() {
   const { setToken } = useAuth();
   const navigate = useNavigate();
 
+  const [notification, setNotification] = useState({ show: false, message: "", type: "error" });
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
+      // Call login API
       const res = await loginUser({ email, password });
-      setToken(res.token);
-      navigate("/dashboard");
+
+      // Access token from response
+      const token = res.data?.token || res.token;
+      if (!token) throw new Error("Invalid response from server");
+
+      // Save token in context & localStorage
+      setToken(token);
+      localStorage.setItem("token", token);
+
+      // Optional success notification
+      setNotification({ show: true, message: "Login successful ✅", type: "success" });
+
+      // Redirect after small delay to show notification
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
     } catch (err) {
-      alert(err.message || "Invalid email or password");
+      console.error(err);
+      setNotification({
+        show: true,
+        message: err.response?.data?.message || err.message || "Invalid email or password ❌",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -163,6 +119,14 @@ export default function LoginPage() {
       <div style={styles.card}>
         <h2 style={styles.title}>Welcome Back 👋</h2>
 
+        {/* Notification component */}
+        <Notification
+          show={notification.show}
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification({ ...notification, show: false })}
+        />
+
         <form onSubmit={handleLogin}>
           <input
             type="email"
@@ -172,7 +136,6 @@ export default function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-
           <input
             type="password"
             placeholder="Password"
@@ -181,19 +144,20 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-
           <button type="submit" style={styles.btn} disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <div
-          style={styles.toggle}
-          onClick={() => navigate("/register")}
-        >
+        <div style={styles.toggle} onClick={() => navigate("/register")}>
           Don’t have an account? <strong>Register</strong>
         </div>
       </div>
     </div>
   );
 }
+
+
+
+
+
