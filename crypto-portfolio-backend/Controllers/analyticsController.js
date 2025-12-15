@@ -1,6 +1,7 @@
 // Controllers/analyticsController.js
 
 const Portfolio = require("../Models/Portfolio");
+const User = require("../Models/User");
 const axios = require("axios");
 
 /*
@@ -54,9 +55,12 @@ exports.getAnalytics = async (req, res) => {
 
     // 1) Fetch all investments of this user
     const items = await Portfolio.find({ userId });
+    const user = await User.findById(userId); // userId req.userId se aa raha hai
+
 
     if (items.length === 0) {
       return res.json({
+        name: user?.name,
         totalInvestment: 0,
         currentValue: 0,
         profitLoss: 0,
@@ -108,6 +112,7 @@ exports.getAnalytics = async (req, res) => {
 
     // 4) Send analytics output
     return res.json({
+      name: user?.name,
       totalInvestment,
       currentValue,
       profitLoss,

@@ -1,30 +1,3 @@
-
-/*import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
-
-export default function Header() {
-  const { token, logout } = useAuth();
-
-  return (
-    <header style={{ padding: "15px", background: "#111", color: "#fff" }}>
-      <nav style={{ display: "flex", gap: "20px" }}>
-        <Link to="/" style={{ color: "white" }}>Dashboard</Link>
-        <Link to="/add" style={{ color: "white" }}>Add Investment</Link>
-        <Link to="/view" style={{ color: "white" }}>My Investments</Link>
-        <Link to="/history" style={{ color: "white" }}>History</Link>
-
-        {token ? (
-          <button onClick={logout} style={{ marginLeft: "auto" }}>Logout</button>
-        ) : (
-          <Link to="/login" style={{ marginLeft: "auto", color: "white" }}>
-            Login
-          </Link>
-        )}
-      </nav>
-    </header>
-  );
-}
-*/
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
@@ -33,83 +6,94 @@ export default function Header() {
 
   const styles = {
     header: {
-      padding: "10px 30px",
-      background: "linear-gradient(90deg, #1e3c72, #2a5298)", // vibrant gradient
+      padding: "12px 40px",
+      background: "rgba(30,60,114,0.85)",
+      backdropFilter: "blur(15px)",
       color: "#fff",
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      fontFamily: "Arial, sans-serif",
-      fontSize: "14px",
-      borderBottom: "1px solid #154071",
+      fontFamily: "'Inter', sans-serif",
+      fontSize: "15px",
       position: "sticky",
       top: 0,
       zIndex: 1000,
+      boxShadow: "0 6px 20px rgba(0,0,0,0.35)",
+      borderBottom: "1px solid rgba(255,255,255,0.2)",
+      borderRadius: "12px 12px 12px 12px", 
+
     },
     nav: {
       display: "flex",
-      gap: "20px",
+      gap: "30px",
       flexWrap: "wrap",
     },
     link: {
-      color: "#e0e0e0",
+      color: "#d0d4de",
       textDecoration: "none",
-      transition: "all 0.2s",
+      fontWeight: 500,
+      position: "relative",
+      transition: "all 0.3s ease",
     },
     linkHover: {
       color: "#fff",
-      textDecoration: "underline",
+      textShadow: "0 0 8px rgba(255,255,255,0.7)",
     },
     button: {
-      background: "#ff7f50", // coral accent
+      background: "linear-gradient(135deg, #ff7f50, #ff6347)",
       border: "none",
-      borderRadius: "4px",
+      borderRadius: "50px",
       color: "#fff",
-      padding: "5px 12px",
+      padding: "8px 22px",
       cursor: "pointer",
-      fontWeight: "500",
-      transition: "all 0.2s",
+      fontWeight: "600",
+      fontSize: "14px",
+      transition: "all 0.3s ease",
+      boxShadow: "0 4px 12px rgba(255,127,80,0.4)",
     },
     buttonHover: {
-      background: "#ff6347", // darker coral on hover
+      background: "linear-gradient(135deg, #ff6347, #ff4500)",
+      boxShadow: "0 6px 20px rgba(255,99,71,0.6)",
+      transform: "scale(1.08)",
     },
+  };
+
+  const handleLinkHover = (e, hover) => {
+    e.currentTarget.style.color = hover ? styles.linkHover.color : styles.link.color;
+    e.currentTarget.style.textShadow = hover ? styles.linkHover.textShadow : "none";
+    e.currentTarget.style.textDecoration = hover ? "underline" : "none";
+  };
+
+  const handleButtonHover = (e, hover) => {
+    e.currentTarget.style.background = hover ? styles.buttonHover.background : styles.button.background;
+    e.currentTarget.style.boxShadow = hover ? styles.buttonHover.boxShadow : styles.button.boxShadow;
+    e.currentTarget.style.transform = hover ? styles.buttonHover.transform : "scale(1)";
   };
 
   return (
     <header style={styles.header}>
       <nav style={styles.nav}>
-        <Link
-          to="/"
-          style={styles.link}
-          onMouseOver={(e) => (e.currentTarget.style.color = styles.linkHover.color)}
-          onMouseOut={(e) => (e.currentTarget.style.color = styles.link.color)}
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/add"
-          style={styles.link}
-          onMouseOver={(e) => (e.currentTarget.style.color = styles.linkHover.color)}
-          onMouseOut={(e) => (e.currentTarget.style.color = styles.link.color)}
-        >
-          Add Investment
-        </Link>
-        <Link
-          to="/view"
-          style={styles.link}
-          onMouseOver={(e) => (e.currentTarget.style.color = styles.linkHover.color)}
-          onMouseOut={(e) => (e.currentTarget.style.color = styles.link.color)}
-        >
-          My Investments
-        </Link>
-        <Link
-          to="/history"
-          style={styles.link}
-          onMouseOver={(e) => (e.currentTarget.style.color = styles.linkHover.color)}
-          onMouseOut={(e) => (e.currentTarget.style.color = styles.link.color)}
-        >
-          History
-        </Link>
+        {["Dashboard", "Add Investment", "My Investments", "History"].map((text, idx) => {
+          const path =
+            text === "Dashboard"
+              ? "/"
+              : text === "Add Investment"
+                ? "/add"
+                : text === "My Investments"
+                  ? "/view"
+                  : "/history";
+          return (
+            <Link
+              key={idx}
+              to={path}
+              style={styles.link}
+              onMouseOver={(e) => handleLinkHover(e, true)}
+              onMouseOut={(e) => handleLinkHover(e, false)}
+            >
+              {text}
+            </Link>
+          );
+        })}
       </nav>
 
       <div>
@@ -117,17 +101,17 @@ export default function Header() {
           <button
             style={styles.button}
             onClick={logout}
-            onMouseOver={(e) => (e.currentTarget.style.background = styles.buttonHover.background)}
-            onMouseOut={(e) => (e.currentTarget.style.background = styles.button.background)}
+            onMouseOver={(e) => handleButtonHover(e, true)}
+            onMouseOut={(e) => handleButtonHover(e, false)}
           >
-            Logout
+            Logout 🔒
           </button>
         ) : (
           <Link
             to="/login"
             style={styles.link}
-            onMouseOver={(e) => (e.currentTarget.style.color = styles.linkHover.color)}
-            onMouseOut={(e) => (e.currentTarget.style.color = styles.link.color)}
+            onMouseOver={(e) => handleLinkHover(e, true)}
+            onMouseOut={(e) => handleLinkHover(e, false)}
           >
             Login
           </Link>
@@ -136,4 +120,3 @@ export default function Header() {
     </header>
   );
 }
-

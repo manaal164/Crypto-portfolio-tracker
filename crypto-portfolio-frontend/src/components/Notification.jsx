@@ -1,6 +1,5 @@
-
-// components/Notification.jsx
 export default function Notification({ message, type, onClose }) {
+  // Agar message empty hai, ya show flag false hai, component render na ho
   if (!message) return null;
 
   const bgColor = type === "success" ? "#27ae60" : "#e74c3c";
@@ -24,7 +23,7 @@ export default function Notification({ message, type, onClose }) {
     >
       {message}
       <span
-        onClick={onClose}
+        onClick={() => onClose && onClose()} // ✅ cross pe click se parent function call hoga
         style={{
           float: "right",
           marginLeft: "10px",

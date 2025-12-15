@@ -1,80 +1,3 @@
-/*
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-// Components
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import PrivateRoute from "./components/PrivateRoute";
-
-// Pages
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import DashboardPage from "./pages/DashboardPage";
-import AddInvestmentPage from "./pages/AddInvestmentPage";
-import ViewInvestmentsPage from "./pages/ViewInvestmentsPage";
-import HistoryPage from "./pages/HistoryPage";
-import OtpPage from "./pages/OtpPage";
-
-export default function App() {
-  return (
-    <BrowserRouter>
-    
-      <Header />
-
-
-      <Routes>
-      
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-          <Route path="/otp" element={<OtpPage />} />
-
-       
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <DashboardPage />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/add"
-          element={
-            <PrivateRoute>
-              <AddInvestmentPage />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/view"
-          element={
-            <PrivateRoute>
-              <ViewInvestmentsPage />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/history"
-          element={
-            <PrivateRoute>
-              <HistoryPage />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-
-     
-    //  <Footer />
-    </BrowserRouter>
-  );
-}
-
-*/
-
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Components
@@ -91,6 +14,12 @@ import ViewInvestmentsPage from "./pages/ViewInvestmentsPage";
 import HistoryPage from "./pages/HistoryPage";
 import OtpPage from "./pages/OtpPage";
 
+// Extra pages for footer links
+import AboutPage from "./pages/About";
+import ContactPage from "./pages/Contact";
+import PrivacyPage from "./pages/Privacy";
+import TermsPage from "./pages/Terms";
+
 import { useAuth } from "./context/AuthContext";
 
 export default function App() {
@@ -100,10 +29,9 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      {/* Header visible on all pages */}
+      {/* Header always visible */}
       <Header />
 
-      {/* Application Routes */}
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={token ? <Navigate to="/" /> : <LoginPage />} />
@@ -144,12 +72,18 @@ export default function App() {
           }
         />
 
+        {/* Footer Pages */}
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+
         {/* Redirect unknown paths */}
         <Route path="*" element={<Navigate to={token ? "/" : "/login"} />} />
       </Routes>
 
-      {/* Footer visible on all pages */}
-      {/* <Footer /> */}
+      {/* Footer always visible */}
+      <Footer />
     </BrowserRouter>
   );
 }

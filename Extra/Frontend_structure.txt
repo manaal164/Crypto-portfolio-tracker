@@ -2,11 +2,13 @@ src/
   components/
     Header.jsx
     Footer.jsx
+    Notification.jsx
     PrivateRoute.jsx
 
   pages/
     LoginPage.jsx
     RegisterPage.jsx
+    OtpPage.jsx
     DashboardPage.jsx
     AddInvestmentPage.jsx
     ViewInvestmentsPage.jsx
